@@ -1,0 +1,47 @@
+<div class="flex flex-col h-screen">
+  <app-navbar/>
+  <div class="w-full grow bg-white-600 p-6">
+    <h1 class="text-xl text-gray-700 font-semibold italic mb-5">Table</h1>
+    <input type="search" [formControl]="input">
+    <!-- cdk-table is the directive to use tables from Angular CDK -->
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" cdk-table [dataSource]="dataSource">
+      <!-- cdk-header-row is the directive to use header row in the table -->
+       <!-- In both cases we are expecting a string[] -->
+       <!-- Here we have the header styles and the row styles -->
+      <tr class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" cdk-header-row *cdkHeaderRowDef="columns"></tr>
+      <!-- How we will manipulate every one of the rows
+      Define styles for the rows, for example bg-gray-100 or even bg-gray-200 -->
+      <tr cdk-row class="bg-white border-b" [ngClass]="{'bg-red-30': row.price < 100}" *cdkRowDef="let row; columns: columns"></tr>
+      <!-- Also we can add a footer where we will see the calculations -->
+      <tr cdk-footer-row class="text-xl text-gray-700 uppercase bg-gray-200" *cdkFooterRowDef="columns"></tr>
+
+      <!-- Organize the columns-->
+      @for (column of columnConfig; track column.name) {
+        <ng-container cdkColumnDef="{{ column.name }}">
+          <!-- manipulate the header -->
+           <!-- paddings and margins goes at cell level, for example py-5 or px-3 -->
+          <th cdk-header-cell class="py-3 px-6" *cdkHeaderCellDef>{{ column.header }}</th>
+          <!-- Print the information with string interpolation {{}} -->
+           <!-- We can use dynamic classes with [ngClass] based on a condition
+           for example [ngClass]="{'bg-red-20': column.price < 100}" -->
+          <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+            @if (column.type == 'image') {
+                <!-- Here we can add the images, for example if we have a column with images, we can use the src attribute to get the image from the object -->
+               <img class="w-20 h-20 rounded-full" [src]="row[column.field][0]" alt="">
+            } @else if (column.type == 'action') {
+              <!-- Here we can add the actions, for example if we have a column with actions, we can use the (click) attribute to get the action from the object -->
+              <app-btn (click)="update(row)" [typeBtn]="'button'" [colorBtn]="'graylight'">Update</app-btn>
+            } @else{
+              {{ row[column.field] }}
+            }
+          </td>
+          <td cdk-footer-cell class="py-3 px-6" *cdkFooterCellDef>
+            @if (column.showTotal) {
+              {{ total }}
+            }
+          </td>
+        </ng-container>
+      }
+    </table>
+  </div>
+</div>

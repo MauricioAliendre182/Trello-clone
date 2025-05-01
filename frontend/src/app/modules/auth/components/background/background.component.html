@@ -1,0 +1,22 @@
+<!-- Screen width/height setup with responsive background color -->
+<!-- NOT INCLUDED - g-[#85b7b5] is a custom color class for the background -->
+<!-- sm is a breakpoint which stands for small-->
+<!-- NOT INCLUDED - w-screen and h-screen are full width and height classes -->
+<!-- hidden sm:block is to hide the background images on mobile screens -->
+<div class="absolute w-full h-full bg-gray-100 hidden sm:block">
+  <!-- Background images container - hidden on mobile, visible on sm breakpoint and up -->
+  <!-- Left decorative background SVG image -->
+  <!-- Responsive width adjustment from medium (w-60) to large screens (w-96) -->
+  <!-- lg is other breakpoint which stands for large-->
+  <img
+    class="absolute w-60 lg:w-80 left-0 bottom-0"
+    src="/assets/svg/login-bg-left.svg"
+    alt="bg left"
+  />
+  <!-- Right decorative background SVG image -->
+  <img
+    class="absolute w-60 lg:w-80 right-0 bottom-0"
+    src="/assets/svg/login-bg-right.svg"
+    alt="bg right"
+  />
+</div>

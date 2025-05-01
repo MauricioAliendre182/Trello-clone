@@ -1,0 +1,11 @@
+<button
+  [type]="typeBtn()"
+  [disabled]="loadingOrDisabled()"
+  [ngClass]="classBtnCustom()">
+  <fa-icon
+    *ngIf="loadingState()"
+    class="mr-2"
+    [icon]="faSpinner">
+  </fa-icon>
+  <ng-content></ng-content>
+</button>

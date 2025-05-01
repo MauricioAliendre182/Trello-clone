@@ -1,0 +1,225 @@
+<div class="p-6 bg-gray-200 relative rounded-2xl shadow">
+  <button (click)="close()" type="button" class="absolute top-3 right-3 focus:outline-none p-2">
+    <fa-icon [icon]="faClose"></fa-icon>
+  </button>
+  <!-- Header -->
+  <div class="flex space-x-4 mb-5">
+    <fa-icon class="text-gray-800" [icon]="faCheckToSlot"></fa-icon>
+    <div class="flex flex-col w-full">
+      <!-- Title in view mode -->
+      <h3 *ngIf="!isEditing" class="text-lg font-semibold text-gray-800" (click)="toggleEdit()">
+        {{ card.title }}
+      </h3>
+      <!-- Title in edit mode -->
+      <input *ngIf="isEditing"
+        class="text-lg font-semibold border rounded p-1"
+        [(ngModel)]="cardForm.title"
+        placeholder="Enter card title..." />
+
+      <p class="text-sm text-gray-500">
+        <span>in list </span>
+        <span class="underline">{{ listTitle }}</span>
+      </p>
+    </div>
+  </div>
+  <!-- Header -->
+
+  <div class="flex w-full mt-4">
+    <!-- contenido central -->
+    <div class="w-auto space-y-6 pr-2">
+
+      <div class="pl-8">
+        <p class="text-sm font-semibold text-gray-500">Notifications</p>
+        <app-btn
+            class="w-24 flex justify-center mt-1"
+            [typeBtn]="'button'"
+            [colorBtn]="'graylight'">
+            <fa-icon class="text-gray-800 mx-1" [icon]="faEye"></fa-icon>
+              Follow
+          </app-btn>
+      </div>
+
+      <!-- Description -->
+      <div class="flex w-full space-x-4 mb-5">
+        <fa-icon class="text-gray-800" [icon]="faBars"></fa-icon>
+        <div class="flex flex-col gap-3 w-full">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-800">Description</h3>
+            <button *ngIf="!isEditing"
+              class="text-sm bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded"
+              (click)="toggleEdit()">
+              Edit
+            </button>
+          </div>
+
+          <!-- Description in view mode -->
+          <p *ngIf="!isEditing"
+            class="text-sm bg-gray-300/60 text-gray-800 p-3 rounded min-h-[80px] cursor-pointer"
+            (click)="toggleEdit()">
+            {{ card.description || 'Add a more detailed description...' }}
+          </p>
+
+          <!-- Description in edit mode -->
+          <textarea *ngIf="isEditing"
+            class="text-sm border rounded p-2 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [(ngModel)]="cardForm.description"
+            placeholder="Add a more detailed description..."></textarea>
+
+          <!-- Save/Cancel buttons in edit mode -->
+          <div *ngIf="isEditing" class="flex space-x-2">
+            <app-btn
+              [typeBtn]="'button'"
+              [colorBtn]="'success'"
+              [disabled]="!cardForm.title.trim()"
+              (click)="saveCard()">
+              Save
+            </app-btn>
+            <button
+              class="px-3 py-1 text-gray-700 hover:bg-gray-200 rounded"
+              (click)="toggleEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- FIN Description -->
+
+      <!-- Actividad -->
+      <div class="flex w-full space-x-4 mb-5">
+        <fa-icon class="text-gray-800" [icon]="faBars"></fa-icon>
+        <div class="flex flex-col gap-3">
+          <h3 class="text-lg font-semibold text-gray-800">Activity</h3>
+          <p class="w-full bg-white shadow-sm border-2 p-2 rounded-xl mt-2 border-x-gray-300 cursor-pointer hover:border-blue-600">
+              Write a comment
+          </p>
+        </div>
+      </div>
+      <!-- FIN Actividad -->
+
+    </div>
+    <!-- Aside content -->
+    <aside class="flex space-y-4 flex-col w-full pl-2">
+
+      <!-- Añadir a la tarjeta -->
+      <div class="flex space-y-2 flex-col">
+        <p class="text-sm font-semibold text-gray-500">Add card</p>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <!-- here we can place the button to the left -->
+            <fa-icon class="text-gray-800" [icon]="faUser"></fa-icon>
+            <span>Members</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faTag"></fa-icon>
+            <span>Labels</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faCheckSquare"></fa-icon>
+            <span>Checklist</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faClock"></fa-icon>
+            <span>Dates</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faPaperclip"></fa-icon>
+            <span>Attached</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faWindowMaximize"></fa-icon>
+            <span>Cover</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faFolder"></fa-icon>
+            <span>Custom Fields</span>
+          </span>
+        </app-btn>
+        <!-- Add delete button -->
+        <app-btn [typeBtn]="'button'" [colorBtn]="'danger'" (click)="deleteCard()">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-white" [icon]="faTrash"></fa-icon>
+            <span>Delete Card</span>
+          </span>
+        </app-btn>
+      </div>
+      <!-- FIN Añadir a la tarjeta -->
+
+      <!-- Power-Ups -->
+      <div class="flex space-y-2 flex-col">
+        <p class="text-sm font-semibold text-gray-500">Power-Ups</p>
+        <div class="hover:bg-gray-300 rounded">
+          <button
+          class="p-2 text-left text-sm font-semibold text-gray-800"
+          >
+            <fa-icon [icon]="faPlus" class="pr-2"></fa-icon>Add Power-Ups
+          </button>
+        </div>
+      </div>
+      <!-- FIN Power-Ups -->
+
+      <!-- Automatización -->
+      <div class="flex space-y-2 flex-col">
+        <p class="text-sm font-semibold text-gray-500">Automation</p>
+        <div class="hover:bg-gray-300 rounded">
+          <button
+          class="p-2 text-left text-sm font-semibold text-gray-800"
+          >
+            <fa-icon [icon]="faPlus" class="pr-2"></fa-icon>Add button
+          </button>
+        </div>
+      </div>
+      <!-- FIN Automatización -->
+
+      <!-- Acciones -->
+      <div class="flex space-y-2 flex-col">
+        <p class="text-sm font-semibold text-gray-500">Acciones</p>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <!-- here we can place the button to the left -->
+            <fa-icon class="text-gray-800" [icon]="faArrowRight"></fa-icon>
+            <span>Move</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faCopy"></fa-icon>
+            <span>Copy</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faBox"></fa-icon>
+            <span>Create Templates</span>
+          </span>
+        </app-btn>
+        <hr>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faBoxArchive"></fa-icon>
+            <span>File</span>
+          </span>
+        </app-btn>
+        <app-btn [typeBtn]="'button'" [colorBtn]="'graylight'">
+          <span class="flex space-x-2 text-left">
+            <fa-icon class="text-gray-800" [icon]="faShareNodes"></fa-icon>
+            <span>Share</span>
+          </span>
+        </app-btn>
+      </div>
+      <!-- FIN Acciones -->
+
+    </aside>
+  </div>
+</div>

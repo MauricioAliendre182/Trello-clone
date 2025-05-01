@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import '@angular/cdk/overlay-prebuilt.css';
+
+/* You can customize Tailwind CSS colors here */
+@theme {
+  --color-success: oklch(0.527 0.154 150.069);
+}
+
+/* Also you can customize an utility in particular
+For example 'container' utility */
+@utility container {
+  @variant sm {
+    max-width: 640px;
+  }
+  @variant md {
+    max-width: 768px;
+  }
+  @variant lg {
+    max-width: 1024px;
+  }
+  @variant xl {
+    max-width: 1024px;
+  }
+  @variant 2xl {
+    max-width: 1536px;
+  }
+}
+
+
+/* Custom scroll */
+/* Custom scrollbar for the board */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.8); /* Light Gray */
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(107, 114, 128, 0.9); /* Darker Gray */
+  border-radius: 4px;
+}
+
+/* Add a hover effect for scroll */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(229, 231, 235, 0.6); /* Soft Gray */
+}
+
+.cdk-overlay-container {
+  z-index: 1000;
+}
+
+.cdk-overlay-pane {
+  max-height: 90vh;
+  overflow: auto;
+}

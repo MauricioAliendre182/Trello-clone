@@ -1,0 +1,184 @@
+@if (!showRegister) {
+  <h1 class="font-bold text-blue-p text-base text-center pb-7">
+    Check if the email exists
+  </h1>
+  <form [formGroup]="formUser" novalidate class="space-y-4" (ngSubmit)="validateUser()">
+    <!-- Email input -->
+    <div>
+      <div class="relative">
+        <input
+          class="w-full bg-gray-50 rounded border-2 border-gray-300"
+          formControlName="email"
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+        />
+      </div>
+      <div *ngIf="formUser.controls.email.touched && form.controls.email.invalid">
+        <p
+          *ngIf="formUser.controls.email.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          This field is mandatory.
+        </p>
+        <p
+          *ngIf="formUser.controls.email.hasError('email')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          This field should be an email.
+        </p>
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="relative">
+      <app-btn
+        typeBtn="submit"
+        colorBtn="success"
+        [loading]="statusUser === 'loading'">
+        Continue
+      </app-btn>
+    </div>
+  </form>
+} @else {
+  <h1 class="font-bold text-blue-p text-base text-center pb-7">
+    Enter your data
+  </h1>
+  <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="register()">
+    <!-- nombre -->
+    <div>
+      <div class="relative">
+        <input
+          class="w-full bg-gray-50 rounded border-2 border-gray-300"
+          #nameInput
+          formControlName="name"
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+        />
+      </div>
+      <div *ngIf="form.controls.name.touched && form.controls.name.invalid">
+        <p
+          *ngIf="form.controls.name.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          This field is mandatory.
+        </p>
+      </div>
+    </div>
+
+    <!-- correo -->
+    <div>
+      <div class="relative">
+        <input
+          class="w-full bg-gray-50 rounded border-2 border-gray-300"
+          #nameInput
+          formControlName="email"
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+        />
+      </div>
+      <div *ngIf="form.controls.email.touched && form.controls.email.invalid">
+        <p
+          *ngIf="form.controls.email.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Este campo es obligatorio
+        </p>
+        <p
+          *ngIf="form.controls.email.hasError('email')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Este campo debe ser un correo electrónico.
+        </p>
+      </div>
+    </div>
+
+     <!-- Primer input Password -->
+     <div>
+      <div class="relative">
+        <input
+          class="w-full bg-gray-50 rounded border-2 border-gray-300"
+          formControlName="password"
+          placeholder="Enter password"
+          [type]="showPassword ? 'text' : 'password'"/>
+        <button
+          type="button"
+          class="text-gray-500 p-2 absolute right-2"
+          (click)="showPassword = !showPassword">
+            <fa-icon [icon]="showPassword ? faEye : faEyeSlash">
+            </fa-icon>
+        </button>
+      </div>
+      <div *ngIf="form.controls.password.touched && form.controls.password.invalid">
+        <p
+          *ngIf="form.controls.password.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1">
+          Thiss field is mandatory.
+        </p>
+        <p
+          *ngIf="form.controls.password.hasError('minlength')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1">
+          This field should be greater than 8 characters.
+        </p>
+      </div>
+    </div>
+    <!-- FIN Primer input Password -->
+
+    <!-- Segundo input Confirm Password -->
+    <div>
+      <div class="relative">
+        <input
+          class="w-full bg-gray-50 rounded border-2 border-gray-300"
+          formControlName="confirmPassword"
+          placeholder="Confirm password"
+          type="password"/>
+      </div>
+      <div
+        *ngIf="
+          form.controls.confirmPassword.touched &&
+          form.controls.confirmPassword.invalid">
+        <p
+          *ngIf="form.controls.confirmPassword.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1">
+          This field is mandatory.
+        </p>
+        <p
+          *ngIf="form.controls.confirmPassword.hasError('minlength')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1">
+          This field should be greater than 8 characters.
+        </p>
+      </div>
+    </div>
+    <!-- FIN Segundo input Confirm Password -->
+
+    <div *ngIf="form.controls.confirmPassword.touched">
+      <p
+        *ngIf="form.hasError('mismatch')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        The password is not the same
+      </p>
+    </div>
+
+    <!-- Button -->
+    <div class="relative">
+      <app-btn
+        typeBtn="submit"
+        colorBtn="success"
+        [loading]="status === 'loading'">
+        Inscribirse
+      </app-btn>
+    </div>
+    <!-- FIN Button -->
+
+    <div *ngIf="formError">
+      <p
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        {{ messageError }}
+      </p>
+    </div>
+  </form>
+}

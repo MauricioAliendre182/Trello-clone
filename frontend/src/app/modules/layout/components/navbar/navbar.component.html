@@ -1,0 +1,306 @@
+<!-- We need to subscribe user$, so we use async to make that -->
+<!-- The user$ | async as user syntax in your navbar component is an Angular pattern for working with observables in templates -->
+<ng-container *ngIf="user$ | async as user">
+  <!-- Apply the background color based on the observable -->
+  <nav
+    class="px-6 border py-1 h-14"
+    [ngClass]="(backgroundColor$ | async)"
+  >
+    <div class="flex flex-wrap justify-between items-center">
+      <div class="flex items-center">
+        <a routerLink="/app/boards">
+          <img loading="lazy" class="w-20 mr-8" src="/assets/images/logo/logo-gradient-neutral-trello.png" alt="logo" />
+        </a>
+
+        <!-- Board Title - Add this section -->
+        <div *ngIf="boardTitle$ | async as title" class="mr-4">
+          <h1 class="text-white font-bold text-lg">{{ title }}</h1>
+        </div>
+        <!-- End of Board Title section -->
+        <div class="flex items-center">
+          <ul class="flex items-center space-x-2 text-sm font-medium">
+            <li class="cursor-pointer">
+              <!-- Use the directive of cdkOverlayOrigin to create a dropdown menu -->
+              <!-- Let's put it the name #menuOverlay which is a template variable
+              a template variable is a reference to a DOM element within a template -->
+              <a routerLink="/app/boards" class="block py-3 px-4 text-gray-800 hover:bg-gray-200 rounded-sm"
+                (click)="isOpenEspaciodeTrabajo = !isOpenEspaciodeTrabajo" cdkOverlayOrigin
+                #menuOverlay="cdkOverlayOrigin">
+                Workspaces
+                <button class="text-gray-800" type="button">
+                  <fa-icon [icon]="faChevronDown"></fa-icon>
+                </button>
+              </a>
+
+              <!-- Let's connect our dropdown menu with the cdkOverlayOrigin directive.
+              We need to import the OverlayModule from @angular/cdk/overlay in the app.module.ts file.
+              Also we need to specify the state with cdkConnectedOverlayOpen directive.
+              For that I can create an ng-template here
+              CDK does not interviene with styles (CSS) only with interactions -->
+              <!-- Also, we want to add the event overlayOutsideClick to close the menu when clicking outside of it. -->
+              <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="menuOverlay"
+                [cdkConnectedOverlayOpen]="isOpenEspaciodeTrabajo"
+                (overlayOutsideClick)="isOpenEspaciodeTrabajo = !isOpenEspaciodeTrabajo">
+                <div
+                  class="z-50 my-4 w-60 text-base list-none bg-white border border-gray-100 rounded-lg shadow-lg p-4">
+                  <h2 class="block font-bold py-4 text-xs text-gray-700">
+                    Your workspaces
+                  </h2>
+                  <div routerLink="/app/board"
+                    class="flex items-center space-x-2 hover:bg-gray-200 rounded cursor-pointer">
+                    <img class="w-10 h-10 rounded-lg pl-1" src="https://api.lorem.space/image/face?w=400&h=400"
+                      alt="" />
+                    <div class="space-y-1">
+                      <div class="text-sm block py-2 px-4 text-gray-700">
+                        {{ user?.name }}'s Workspace
+                      </div>
+                    </div>
+                  </div>
+                  <h2 class="block font-bold py-4 text-xs text-gray-700">
+                    Invited Workspaces
+                  </h2>
+                  <div routerLink="/app/board"
+                    class="flex items-center space-x-2 hover:bg-gray-200 rounded cursor-pointer">
+                    <img class="w-10 h-10 rounded-lg pl-1" src="https://api.lorem.space/image/face?w=400&h=400"
+                      alt="" />
+                    <div class="space-y-1">
+                      <div class="text-sm block py-2 px-4 text-gray-700">
+                        Services Development
+                      </div>
+                    </div>
+                  </div>
+                  <div routerLink="/app/board"
+                    class="flex items-center space-x-2 hover:bg-gray-200 rounded cursor-pointer">
+                    <img class="w-10 h-10 rounded-lg pl-1" src="https://api.lorem.space/image/face?w=400&h=400"
+                      alt="" />
+                    <div class="space-y-1">
+                      <div class="text-sm block py-2 px-4 text-gray-700">
+                        Services Development
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li class="cursor-pointer">
+              <!-- Create a simple button for users -->
+              <a routerLink="/app/users" class="block py-3 px-4 text-gray-800 hover:bg-gray-200 rounded-sm">
+                Users
+              </a>
+            </li>
+            <li class="cursor-pointer">
+              <!-- Use the directive of cdkOverlayOrigin to create a dropdown menu -->
+              <!-- Let's put it the name #menuOverlay which is a template variable
+              a template variable is a reference to a DOM element within a template -->
+              <a routerLink="/app/board" class="block py-3 px-4 text-gray-800 hover:bg-gray-200 rounded-sm"
+                (click)="isOpenReciente = !isOpenReciente" cdkOverlayOrigin #recentOverlay="cdkOverlayOrigin">
+                Recent
+                <button class="text-gray-800" type="button">
+                  <fa-icon [icon]="faChevronDown"></fa-icon>
+                </button>
+              </a>
+              <!-- Let's connect our dropdown menu with the cdkOverlayOrigin directive.
+              We need to import the OverlayModule from @angular/cdk/overlay in the app.module.ts file.
+              Also we need to specify the state with cdkConnectedOverlayOpen directive.
+              For that I can create an ng-template here
+              CDK does not interviene with styles (CSS) only with interactions -->
+              <!-- Also, we want to add the event overlayOutsideClick to close the menu when clicking outside of it. -->
+              <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="recentOverlay"
+                [cdkConnectedOverlayOpen]="isOpenReciente" (overlayOutsideClick)="isOpenReciente = !isOpenReciente">
+                <div
+                  class="z-50 my-4 w-60 text-base list-none bg-white border border-gray-100 rounded-lg shadow-lg p-2">
+                  <div routerLink="/app/board"
+                    class="flex items-center space-x-2 hover:bg-gray-200 rounded cursor-pointer">
+                    <img class="w-15 h-10 rounded-lg pl-1" src="https://api.lorem.space/image/face?w=600&h=400"
+                      alt="" />
+                    <div class="p-2">
+                      <h2 class="text-sm font-bold block text-gray-700">
+                        Services Development
+                      </h2>
+                      <p class="text-xs">Nombre de la empresa</p>
+                    </div>
+                  </div>
+
+                  <div routerLink="/app/board"
+                    class="flex items-center space-x-2 hover:bg-gray-200 rounded cursor-pointer">
+                    <img class="w-15 h-10 rounded-lg pl-1" src="https://api.lorem.space/image/face?w=600&h=400"
+                      alt="" />
+                    <div class="p-2">
+                      <h2 class="text-sm font-bold block text-gray-700">
+                        Services Development
+                      </h2>
+                      <p class="text-xs">Nombre de la empresa</p>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li>
+              <a routerLink="/app/boards"
+                class="block py-3 px-4 text-gray-800 hover:bg-gray-200 rounded-sm cursor-pointer">
+                Marked
+                <button class="text-gray-800" type="button">
+                  <fa-icon [icon]="faChevronDown"></fa-icon>
+                </button>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/app/boards"
+                class="block py-3 px-4 text-gray-800 hover:bg-gray-200 rounded-sm cursor-pointer">
+                Template
+                <button class="text-gray-800" type="button">
+                  <fa-icon [icon]="faChevronDown"></fa-icon>
+                </button>
+              </a>
+            </li>
+            <li>
+              <!-- cdkOverlayOrigin is a directive that allows us to create a dropdown menu -->
+              <app-btn
+                [typeBtn]="'button'"
+                [colorBtn]="'sky'"
+                cdkOverlayOrigin
+                #createBoardOverlay="cdkOverlayOrigin"
+                (click)="toggleCreateBoardMenu()">
+                <div class="flex space-x-3 text-left">
+                  <span>Create</span>
+                  <fa-icon [icon]="faChevronDown"></fa-icon>
+                </div>
+              </app-btn>
+
+              <!-- Let's connect our dropdown menu with the cdkOverlayOrigin directive.
+                For that we will need an ng-template to have an overlay to create a board-->
+              <!-- ng-template is a directive that allows us to create a template that can be used later
+              in this case the overlay to create a board -->
+              <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="createBoardOverlay"
+                [cdkConnectedOverlayOpen]="isOpenCreateBoard" (overlayOutsideClick)="isOpenCreateBoard = !isOpenCreateBoard">
+                <div
+                  class="z-50 my-4 w-60 text-base list-none bg-white border border-gray-100 rounded-lg shadow-lg p-2">
+                  <div class="py-2 px-4 text-center relative">
+                    <span class="block text-normal text-gray-900">Create new board</span>
+                    <button
+                      (click)="isOpenCreateBoard = !isOpenCreateBoard"
+                      class="block text-sm text-gray-900 hover:text-gray-70 absolute top-3 right-3"
+                    >
+                      <fa-icon [icon]="faClose"></fa-icon>
+                    </button>
+                  </div>
+
+                  <div class="py-3 px-4 flex justify-between">
+                    <app-board-form (boardCreated)="closeCreateBoardOverlay()"></app-board-form>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="flex space-x-2 gap-x-2">
+          <!-- Here we will use font-awesome icons
+          font-awesome is an external library-->
+          <button class="text-gray-800 text-xl" type="button">
+            <fa-icon [icon]="faBell"></fa-icon>
+          </button>
+          <button class="text-gray-800 text-xl" type="button">
+            <fa-icon [icon]="faCircleQuestion"></fa-icon>
+          </button>
+          <!-- Use the directive of cdkOverlayOrigin to create a dropdown menu -->
+          <!-- Let's put it the name #menuOverlay which is a template variable
+          a template variable is a reference to a DOM element within a template -->
+          <button type="button" class="flex rounded-full" aria-expanded="false" (click)="isOpen = !isOpen"
+            cdkOverlayOrigin #profileOverlay="cdkOverlayOrigin">
+            <!-- Here we will see the avatar of the user -->
+            <img class="w-8 h-8 rounded-full" [src]="user?.avatar" alt="user photo" />
+          </button>
+          <!-- Let's connect our dropdown menu with the cdkOverlayOrigin directive.
+          We need to import the OverlayModule from @angular/cdk/overlay in the app.module.ts file.
+          Also we need to specify the state with cdkConnectedOverlayOpen directive.
+          For that I can create an ng-template here
+          CDK does not interviene with styles (CSS) only with interactions -->
+          <!-- Also, we want to add the event overlayOutsideClick to close the menu when clicking outside of it. -->
+          <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="profileOverlay"
+            [cdkConnectedOverlayOpen]="isOpen" (overlayOutsideClick)="isOpen = !isOpen">
+            <div class="z-50 my-4 w-60 text-base list-none bg-white border border-gray-100 rounded-lg shadow-lg">
+              <div class="py-3 px-4 flex justify-between">
+                <span class="block text-sm text-center text-gray-900">Account</span>
+                <button (click)="isOpen = !isOpen" class="block text-sm text-gray-900">
+                  x
+                </button>
+              </div>
+              <div class="py-3 px-4 flex items-center space-x-4">
+                <img class="w-10 h-10 rounded-full" [src]="user?.avatar" alt="" />
+                <div class="space-y-1">
+                  <div>{{ user?.name }}</div>
+                  <div class="text-sm text-gray-500">{{ user?.email }}</div>
+                </div>
+              </div>
+              <ul class="py-1">
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Change
+                    Accounts</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Manage
+                    Account</a>
+                </li>
+              </ul>
+              <hr class="border-b border-gray-100" />
+              <ul class="py-1">
+                <li>
+                  <h2 class="block font-bold py-2 px-4 text-xs text-gray-700 uppercase">
+                    TRELLO
+                  </h2>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Profile and
+                    visibility</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Activity</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Cards</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Settings</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Themes</a>
+                </li>
+              </ul>
+              <hr class="border-b border-gray-100" />
+              <ul class="py-1">
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Help</a>
+                </li>
+                <li>
+                  <a href="#"
+                    class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">Direct
+                    Access</a>
+                </li>
+              </ul>
+              <hr class="border-b border-gray-100" />
+              <ul class="py-1">
+                <li>
+                  <button (click)="logout()" href="#" class="block py-2 px-4 text-sm text-gray-700">Logout</button>
+                </li>
+              </ul>
+            </div>
+          </ng-template>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- IMPORTANT: We need multiple ng-template for every overlay
+  THe overlay is Dynamic, this means that depending on scroll the menu can appear above or below the button-->
+</ng-container>

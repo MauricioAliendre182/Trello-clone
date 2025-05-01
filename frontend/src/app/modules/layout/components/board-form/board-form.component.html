@@ -1,0 +1,53 @@
+<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="doSave()">
+  <div>
+    <!-- Enter the name of the board -->
+    <div class="relative mb-4">
+      <input
+        class="w-full bg-gray-50 rounded border-2 border-gray-300 px-3 py-2"
+        #titleInput
+        formControlName="title"
+        type="text"
+        placeholder="Enter title"
+      />
+      <!-- Add validation error for title -->
+      <div *ngIf="form.controls.title.touched && form.controls.title.invalid">
+        <p *ngIf="form.controls.title.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+          Board title is required
+        </p>
+        <p *ngIf="form.controls.title.hasError('minlength')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+          Board title must be at least 3 characters long
+        </p>
+      </div>
+    </div>
+
+    <!-- Enter the color of the board
+     Review other options to set the color, for example using Radio Button
+     https://flowbite.com/docs/forms/radio/#colors-->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2">Board Background</label>
+      <div class="flex flex-wrap gap-1.5">
+        <div
+          *ngFor="let background of boardBackgrounds"
+          class="w-14 h-10 rounded cursor-pointer transition-all hover:opacity-80"
+          [style.background]="background.color"
+          [class.border-2]="background.value === form.controls.backgroundColor.value"
+          [class.border-blue-500]="background.value === form.controls.backgroundColor.value"
+          (click)="selectBackground(background.value)">
+        </div>
+      </div>
+
+      <!-- Add validation error for title -->
+      <div *ngIf="form.controls.backgroundColor.touched && form.controls.backgroundColor.invalid">
+        <p *ngIf="form.controls.backgroundColor.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+          Board color is required
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <app-btn [typeBtn]="'submit'"[colorBtn]="'success'">
+        Create
+      </app-btn>
+    </div>
+  </div>
+</form>

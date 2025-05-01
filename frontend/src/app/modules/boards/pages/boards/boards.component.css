@@ -1,0 +1,32 @@
+/* Board menu trigger button should only appear on hover */
+.board-card {
+  position: relative;
+}
+
+.board-menu-trigger {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.board-card:hover .board-menu-trigger {
+  opacity: 1;
+}
+
+/* Animation for confirmation dialog */
+.cdk-dialog-container {
+  animation: dialogFadeIn 0.2s;
+}
+
+@keyframes dialogFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
