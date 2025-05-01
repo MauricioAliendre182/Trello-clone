@@ -2,7 +2,7 @@
 
 A full-stack application that replicates Trello's functionality using Angular for the frontend and Go for the backend.
 
-![Trello Clone Preview](https://i.imgur.com/your-image-url.jpg)
+![Trello Clone Preview](repo-images/image.png)
 
 ## Features
 
